@@ -1,0 +1,194 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2022": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint",
+    "react",
+    "react-refresh",
+    "sort-destructure-keys",
+    "import-newlines"
+  ],
+  "extends": [
+    /* Basic ESLint */
+    "eslint:recommended",
+    /* TypeScript */
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    /* JSON (JSONC, JSON5) */
+    "plugin:jsonc/recommended-with-jsonc",
+    /* React */
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:react-hooks/recommended"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    /* Basic ESLint */
+    "indent": ["error", 2],
+    "semi": "off",
+    "quotes": ["error", "single"],
+    "key-spacing": [
+      "error",
+      {
+        "beforeColon": false,
+        "afterColon": true,
+        "align": "value",
+        "mode": "minimum"
+      }
+    ],
+    "sort-keys": [
+      "error",
+      "asc",
+      {
+        "caseSensitive": true,
+        "natural": true,
+        "minKeys": 2
+      }
+    ],
+    // Array
+    "array-bracket-newline": [
+      "error",
+      {
+        "multiline": true,
+        "minItems": 3
+      }
+    ],
+    "array-bracket-spacing": ["error", "never"],
+    "array-element-newline": [
+      "error",
+      {
+        "minItems": 3
+      }
+    ],
+    // Object
+    // "object-curly-newline": [
+    //   "error",
+    //   {
+    //     "consistent": true,
+    //     "multiline": true,
+    //     "minProperties": 2
+    //   }
+    // ],
+    "object-curly-spacing": [
+      "error",
+      "always",
+      {
+        "arraysInObjects": true,
+        "objectsInObjects": false
+      }
+    ],
+    "object-property-newline": ["error"],
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": false,
+        "ignoreMemberSort": false,
+        "memberSyntaxSortOrder": ["all", "multiple", "single", "none"],
+        "allowSeparatedGroups": true
+      }
+    ],
+    /* ESLint Plugins */
+    "sort-destructure-keys/sort-destructure-keys": [
+      2,
+      {
+        "caseSensitive": false
+      }
+    ],
+    /* TypeScript */
+    "@typescript-eslint/semi": "error",
+    "@typescript-eslint/no-non-null-assertion": "error",
+    "@typescript-eslint/sort-type-constituents": "error",
+    "@typescript-eslint/adjacent-overload-signatures": "error",
+    "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
+    "@typescript-eslint/array-type": [
+      "error",
+      {
+        "default": "array",
+        "readonly": "array"
+      }
+    ],
+    "@typescript-eslint/member-ordering": [
+      "error",
+      {
+        "typeLiterals": ["field", "signature", "constructor", "method"],
+        "default": {
+          "order": "alphabetically-case-insensitive"
+        }
+      }
+    ],
+    /* JSON (JSONC, JSON5) */
+    // Array
+    "jsonc/array-bracket-newline": [
+      "error",
+      {
+        "multiline": true,
+        "minItems": 2
+      }
+    ],
+    "jsonc/array-bracket-spacing": ["error", "never"],
+    "jsonc/array-element-newline": [
+      "error",
+      {
+        "minItems": 2
+      }
+    ],
+    // Object
+    "jsonc/object-curly-newline": [
+      "error",
+      {
+        "consistent": true,
+        "minProperties": 2
+      }
+    ],
+    "jsonc/object-curly-spacing": [
+      "error",
+      "always",
+      {
+        "arraysInObjects": true,
+        "objectsInObjects": false
+      }
+    ],
+    "jsonc/object-property-newline": ["error"],
+    /* React */
+    "react/jsx-indent": [
+      "error",
+      2,
+      {
+        "checkAttributes": true,
+        "indentLogicalExpressions": true
+      }
+    ],
+    "react/jsx-sort-props": "error",
+    "react/sort-default-props": "error",
+    "react-refresh/only-export-components": [
+      "error",
+      {
+        "allowConstantExport": true
+      }
+    ],
+    "react/jsx-first-prop-new-line": ["error", "multiline-multiprop"],
+    "react/jsx-closing-bracket-location": ["error", "tag-aligned"],
+    "react/jsx-max-props-per-line": [
+      "error",
+      {
+        "maximum": {
+          "single": 1,
+          "multi": 1
+        }
+      }
+    ],
+    "react/jsx-closing-tag-location": 2,
+    "react/no-unescaped-entities": "off",
+    /* Import */
+    "import-newlines/enforce": ["error", { "items": 2, "semi": true }]
+  }
+}

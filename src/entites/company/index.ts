@@ -1,0 +1,1 @@
+export * as companyModel from './model';

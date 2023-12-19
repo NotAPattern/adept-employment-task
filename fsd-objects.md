@@ -1,0 +1,18 @@
+- app
+  - providers
+  - store
+  - styles
+- entities
+  - company
+    - model
+      -
+    - ui
+      - CompanyRow
+- features
+  - company
+    - Add company to table
+    - Remove company from table
+  - employes
+    - Add employee to table
+    - Remove employee from table
+- ## widgets

@@ -1,5 +1,5 @@
-import { changeSelectCompany, useSelectedCompany } from 'src/entites/company/model';
 import { Checkbox } from 'src/shared/ui';
+import { companyModel } from 'src/entites/company';
 import { FC } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -8,17 +8,18 @@ type SelectCompanyProps = {
   label?: string;
 };
 
-const SelectCompany: FC<SelectCompanyProps> = ({
-  id,
-  label,
-}) => {
+const SelectCompany: FC<SelectCompanyProps> = ({ id, label }) => {
   const dispatch = useDispatch();
-  const isSelected = useSelectedCompany(id);
+  const isSelected = companyModel.useSelectedCompanyId(id);
   return (
     <Checkbox
       checked={isSelected}
+      key={`company-checkbox-key-${id}`}
       label={label}
-      onChange={() => dispatch(changeSelectCompany(id))}
+      onChange={() => {
+        dispatch(companyModel.changeSelectCompany(id));
+        dispatch(companyModel.changeCurrentSelectId(id));
+      }}
     />
   );
 };

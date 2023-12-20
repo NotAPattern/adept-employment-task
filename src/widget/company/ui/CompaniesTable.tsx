@@ -1,22 +1,18 @@
-import { FC, useCallback } from 'react';
 import {
   Table,
+  TableBody,
   TableHead,
   TableHeadCell,
   TableRow
 } from 'src/shared/ui';
-import { ChangeCompanyName } from 'src/features/changeCompanyName';
+import { ChangeCompanyProperty } from 'src/features/changeCompanyProperty';
+import { companyModel } from 'src/entites/company';
 import { CompanyRow } from 'src/entites/company/ui/companyRow';
+import { FC } from 'react';
 import SelectCompany from 'src/features/selectCompanyRow/ui';
-import { TableBody } from 'src/shared/ui/TableBody/TableBody';
-import { useCompanies } from 'src/entites/company/model';
 
 export const CompaniesTable: FC = () => {
-  const companies = useCompanies();
-
-  const sortedCompanies = useCallback(() => {
-    return (Object.keys(companies) as unknown as number[]).sort((a, b) => a - b);
-  }, []);
+  const companiesIds = companyModel.useCompaniesIds();
 
   return (
     <Table>
@@ -26,23 +22,29 @@ export const CompaniesTable: FC = () => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {sortedCompanies().map((id) => {
-          const company = companies[id];
+        {companiesIds.map((id) => {
           return (
             <CompanyRow
-              // TODO: add component
-              address={company.address}
+              address={
+                <ChangeCompanyProperty
+                  id={id}
+                  type='address'
+                />}
               checkbox={
                 <SelectCompany
                   id={id}
                 />
               }
-              // TODO: add component
               companyId={id}
-              employesCount={company.employesCount}
-              key={`company-row-${company.id}`}
+              // TODO: add component
+              employesCount={22}
+              // company.employesCount}
+              key={`company-row-${id}`}
               name={
-                <ChangeCompanyName id={id}/>}
+                <ChangeCompanyProperty
+                  id={id}
+                  type='name'
+                />}
             />
           );
         })}

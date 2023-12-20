@@ -3,96 +3,98 @@ import {
   createSlice,
   PayloadAction
 } from '@reduxjs/toolkit';
-import { normalize, schema } from 'normalizr';
+import { addAndSort } from 'src/shared/utils';
 import { Company } from 'src/shared/api';
+import { CompanyChangableKeys } from './types';
 import { useSelector } from 'react-redux';
 
-type NormalizedCompany = Record<number, Company>;
-type NormalizedSelectedCompanies = Record<number, boolean>;
-
-const companySchema = new schema.Entity<Company>('companies');
-
-export const normalizeCompany = (data: Company) => {
-  return normalize<Company, { companies: NormalizedCompany }>(
-    data,
-    companySchema
-  );
-};
-
-export const normalizeCompanies = (data: Company[]) => {
-  return normalize<Company, { companies: NormalizedCompany }>(data, [companySchema]);
-};
-
-export const normalizeSelectedCompanies = (data: number[]) => {
-  return data.reduce<{ [k in number]: boolean }>((acc, item) => {
-    acc[item] = true;
-    return acc;
-  }, {});
-};
-
 export const initialState: {
-  data: NormalizedCompany;
-  selectedCompanies: NormalizedSelectedCompanies;
+  entities: Record<number, Company>;
+  ids: number[];
+  selectedCompaniesIds: Record<number, boolean>;
+  currentSelectId: number | null;
 } = {
-  data:              [],
-  selectedCompanies: [],
+  currentSelectId:      null,
+  entities:             {},
+  ids:                  [],
+  selectedCompaniesIds: [],
 };
 
-export const companyModel = createSlice({
-  initialState,
-  name:     'companies',
-  reducers: {
+export const companyModelSlice = createSlice({
+  initialState: initialState,
+  name:         'companies',
+  reducers:     {
     addCompanies: (
       state,
       {
         payload,
-      }: PayloadAction<{ companies: Company[]; selectedCompanies: number[] }>
+      }: PayloadAction<{ companies: Company[]; selectedCompaniesIds?: number[] }>
     ) => {
-      const companies = normalizeCompanies(payload.companies).entities
-        .companies;
-      const selectedCompanies = normalizeSelectedCompanies(
-        payload.selectedCompanies
-      );
-      state.data = companies;
-      state.selectedCompanies = selectedCompanies;
+      for (const company of payload.companies) {
+        state.entities[company.id] = company;
+        state.ids = addAndSort(state.ids, company.id);
+      }
+      if(payload.selectedCompaniesIds){
+        for (const selectedCompanyId of payload.selectedCompaniesIds) {
+          state.selectedCompaniesIds[selectedCompanyId] = true;
+        }
+      }
     },
-    changeCompanyAddress: ({ data }, { payload }: PayloadAction<{id: number, value: string}>) => {
-      data[payload.id].address = payload.value;
+    changeCompanyEmployesCount: ({ entities }, { payload }: PayloadAction<{id: number, value: number}>) => {
+      entities[payload.id].employesCount = payload.value;
     },
-    changeCompanyEmployesCount: ({ data }, { payload }: PayloadAction<{id: number, value: number}>) => {
-      data[payload.id].employesCount = payload.value;
+    changeCompanyProperty: ({ entities }, { payload }: PayloadAction<{id: number, value: string, type: CompanyChangableKeys}>) => {
+      entities[payload.id][payload.type] = payload.value;
     },
-    changeCompanyName: ({ data }, { payload }: PayloadAction<{id: number, value: string}>) => {
-      data[payload.id].name = payload.value;
-    },
-    changeSelectCompany: (
-      { selectedCompanies },
+    changeCurrentSelectId: (
+      state,
       { payload: companyId }: PayloadAction<number>
     ) => {
-      selectedCompanies[companyId] = !selectedCompanies[companyId];
+      state.currentSelectId = null;
+      let selectedCount = 0;
+      for(const [, value] of Object.entries(state.selectedCompaniesIds)) {
+        if (value === true) { selectedCount++;}
+      }
+      if(selectedCount === 1) {
+        state.currentSelectId = companyId;
+      }
+    },
+    changeSelectCompany: (
+      { selectedCompaniesIds },
+      { payload: companyId }: PayloadAction<number>
+    ) => {
+      selectedCompaniesIds[companyId] = !selectedCompaniesIds[companyId];
     },
   },
 });
 
-export const { addCompanies, changeCompanyName, changeSelectCompany } = companyModel.actions;
+export const {
+  addCompanies,
+  changeCompanyProperty,
+  changeCurrentSelectId,
+  changeSelectCompany,
+} = companyModelSlice.actions;
+
+export const useCompaniesIds = () => useSelector((state:RootState) => state.companies.ids);
 
 export const useCompany = (companyId: number) =>
   useSelector(
     createSelector(
-      (state: RootState) => state.companies.data,
+      (state: RootState) => state.companies.entities,
       (companies) => companies[companyId]
     )
   );
 
 export const useCompanies = () =>
-  useSelector((state: RootState) => state.companies.data);
+  useSelector((state: RootState) => state.companies.entities);
 
-export const useSelectedCompanies = () =>
-  useSelector((state: RootState) => state.companies.selectedCompanies);
+export const useSelectedCompaniesIds = () =>
+  useSelector((state: RootState) => state.companies.selectedCompaniesIds);
 
-export const useSelectedCompany = (id: number) =>
-  useSelector((state: RootState) => state.companies.selectedCompanies[id]);
+export const useSelectedCompanyId = (id: number) =>
+  useSelector((state: RootState) => state.companies.selectedCompaniesIds[id]);
 
-// export const useCompaniesMemo = createSelector([(state: RootState) => state.companies.data], (data) => data);
+export const useCurrentSelectedId = () =>
+  useSelector((state: RootState) => state.companies.currentSelectId);
 
-export const reducer = companyModel.reducer;
+export const reducer = companyModelSlice.reducer;

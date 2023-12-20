@@ -1,3 +1,3 @@
 import { Company } from 'src/shared/api';
 
-export type CompanyChangableKeys = Omit<keyof Company, 'employesCount' | 'id'>;
+export type CompanyChangableKeys = keyof Omit<Company, 'employesCount' | 'id'>;

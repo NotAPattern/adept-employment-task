@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react';
 import clsx from 'clsx';
+import { companyModel } from 'src/entites/company';
 import styles from './CompanyRow.module.sass';
-import { useSelectedCompany } from '../../model';
 
 type CompanyRowProps = JSX.IntrinsicElements['tr'] & {
   address: ReactNode;
@@ -18,7 +18,7 @@ export const CompanyRow: FC<CompanyRowProps> = ({
   employesCount,
   name,
 }) => {
-  const isSelected = useSelectedCompany(companyId);
+  const isSelected = companyModel.useSelectedCompanyId(companyId);
 
   return (
     <tr

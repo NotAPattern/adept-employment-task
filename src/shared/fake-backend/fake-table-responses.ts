@@ -2,12 +2,11 @@ import { COMPANIES_COUNT, EMPLOYES_RANGE } from '../config';
 import { Company, Employee } from 'src/shared/api';
 import { faker } from '@faker-js/faker';
 
-faker.seed(42);
-
 export function fakeCompaniesRequest(
   startId?: number,
   count: number = 100
 ): Promise<Company[]> {
+  faker.seed(42);
   return new Promise((res) => {
     setTimeout(() => {
       const data = [];
@@ -25,7 +24,7 @@ export function fakeCompaniesRequest(
         });
       }
       return res(data);
-    }, 3000);
+    }, 300);
   });
 }
 
@@ -47,6 +46,6 @@ export function fakeEmployesRequest(
         });
       }
       return res(data);
-    }, 2000);
+    }, 200);
   });
 }

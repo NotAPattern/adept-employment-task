@@ -59,6 +59,19 @@ export const employeeModel = createSlice({
       }
       selectedEmployesIds[payload.companyId][payload.id] = !selectedEmployesIds[payload.companyId][payload.id];
     },
+    selectAllEmployes: (
+      { entities, selectedEmployesIds },
+      { payload }: PayloadAction<{companyId: number}>
+    ) => {
+      console.log(payload);
+      const selectedEmployesIdsKeys = Object.keys(selectedEmployesIds[payload.companyId]);
+      const isSelectedAll = selectedEmployesIdsKeys.length === 0 || selectedEmployesIdsKeys.some(id => selectedEmployesIds[payload.companyId][id as unknown as number] !== true)
+      || (selectedEmployesIdsKeys.length !== Object.keys(entities[payload.companyId]).length); 
+      console.log(selectedEmployesIdsKeys.length, Object.keys(entities[payload.companyId]).length);
+      for (const id of Object.keys(entities[payload.companyId]) as unknown as number[]) {
+        selectedEmployesIds[payload.companyId][id] = isSelectedAll;
+      }
+    },
   },
 });
 
@@ -66,6 +79,7 @@ export const {
   addEmployes,
   changeEmployProperty,
   changeSelectEmployee,
+  selectAllEmployes,
 } = employeeModel.actions;
 
 export const useEmployesIds = (companyId: number) => useSelector((state:RootState) => state.employes.ids[companyId]);

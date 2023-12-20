@@ -13,13 +13,13 @@ import ReactLoading from 'react-loading';
 import { useDispatch } from 'react-redux';
 
 const CompaniesTableMemo = memo(CompaniesTable);
+const EmployesTableMemo = memo(EmployesTable);
 
 function TablesPage() {
   const dispatch = useDispatch();
   const currentSelectCompanyId = companyModel.useCurrentSelectedId();
-  // TODO:
   const [isCompaniesLoading, setIsCompaniesLoading] = useState<boolean>(true);
-  const [isEmployesLoading, setIsEmployesLoading] = useState<boolean>(true);
+  const [isEmployesLoading, setIsEmployesLoading] = useState<boolean>(false);
 
   useEffect(() => {
     getCompanies(1, PAGINATION_COUNT).then((data) =>
@@ -47,24 +47,31 @@ function TablesPage() {
         setIsEmployesLoading(false);
       });
     }
-  }, [currentSelectCompanyId]);
+  }, [currentSelectCompanyId, dispatch]);
 
   return (
     <main style={{
       'alignItems':      'flex-start',
       'display':        'flex',
       'flexDirection':  'row',
-      'justifyContent': 'center',
+      'justifyContent': 'flex-start',
+      'marginLeft':     'auto',
+      'marginRight':     'auto',
+      'marginTop':      '1rem',
+      'minHeight':      '100vh',
+      'minWidth':       '100vw'
     }}
     >
-      <div>
+      <h1 style={{ 'display': 'none' }}>Таблицы компаний и сотрудников</h1>
+      <div style={{ 'width': '50%' }}>
+        <h2>Компании</h2>
         {isCompaniesLoading && <ReactLoading type='spin'/>}
         {!isCompaniesLoading && <CompaniesTableMemo />}
       </div>
-      <div>
-        {/* TODO: add employes table */}
+      <div style={{ 'width': '50%' }}>
+        <h2>Сотрудники</h2>
         {isEmployesLoading && <ReactLoading type='spin'/>}
-        {!isEmployesLoading && <EmployesTable companyId={currentSelectCompanyId} />}
+        {!isEmployesLoading && <EmployesTableMemo companyId={currentSelectCompanyId} />}
       </div>
     </main>
   );

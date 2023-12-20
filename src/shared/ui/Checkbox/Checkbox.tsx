@@ -1,4 +1,8 @@
-import { ChangeEvent, FC } from 'react';
+import {
+  ChangeEvent,
+  forwardRef,
+  LegacyRef
+} from 'react';
 
 type CheckboxProps = {
   checked: boolean;
@@ -6,7 +10,7 @@ type CheckboxProps = {
   onChange: (checked: boolean) => void;
 };
 
-export const Checkbox: FC<CheckboxProps> = ({ checked, label, onChange }) => {
+export const Checkbox = forwardRef(function Checkbox({ checked, label, onChange }: CheckboxProps, ref) {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.checked);
   };
@@ -17,10 +21,11 @@ export const Checkbox: FC<CheckboxProps> = ({ checked, label, onChange }) => {
         <input
           checked={checked}
           onChange={handleChange}
+          ref={ref as LegacyRef<HTMLInputElement>}
           type="checkbox"
         />
         {label && label}
       </label>
     </div>
   );
-};
+});

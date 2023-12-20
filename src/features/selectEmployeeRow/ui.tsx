@@ -9,7 +9,7 @@ type SelectEmployeeProps = {
   label?: string;
 };
 
-const SelectEmployee: FC<SelectEmployeeProps> = ({
+export const SelectEmployee: FC<SelectEmployeeProps> = ({
   companyId,
   id,
   label,
@@ -22,11 +22,9 @@ const SelectEmployee: FC<SelectEmployeeProps> = ({
       key={`Employee-checkbox-key-${id}`}
       label={label}
       onChange={() => dispatch(employeeModel.changeSelectEmployee({
-        companyId,
-        id
+        companyId: companyId,
+        id:        id
       }))}
     />
   );
 };
-
-export default SelectEmployee;

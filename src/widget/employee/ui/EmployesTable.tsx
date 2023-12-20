@@ -8,7 +8,8 @@ import {
 } from 'src/shared/ui';
 import { ChangeEmployeeProperty } from 'src/features/changeEmployeeProperty';
 import { FC } from 'react';
-import SelectEmployee from 'src/features/selectEmployeeRow/ui';
+import { SelectAllEmployes } from 'src/features/selectAllEmployes';
+import { SelectEmployee } from 'src/features/selectEmployeeRow';
 
 type EmployesTableProps = {
   companyId: number | null;
@@ -24,7 +25,7 @@ export const EmployesTable: FC<EmployesTableProps> = ({ companyId }) => {
     <Table>
       <TableHead>
         <TableRow>
-          <TableHeadCell>{/* TODO: */}</TableHeadCell>
+          <TableHeadCell>{<SelectAllEmployes companyId={companyId}/>}</TableHeadCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -33,7 +34,7 @@ export const EmployesTable: FC<EmployesTableProps> = ({ companyId }) => {
             <EmployeeRow
               checkbox={
                 <SelectEmployee
-                  companyId={id}
+                  companyId={companyId}
                   id={id}
                 />
               }
@@ -45,7 +46,7 @@ export const EmployesTable: FC<EmployesTableProps> = ({ companyId }) => {
                   id={id}
                   type='firstName'
                 />}
-              key={`employee-row-${id}`}
+              key={`employee-company-${companyId}-row-${id}`}
               lastName={
                 <ChangeEmployeeProperty
                   companyId={companyId}

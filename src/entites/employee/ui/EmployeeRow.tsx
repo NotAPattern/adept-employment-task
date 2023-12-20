@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react';
 import clsx from 'clsx';
+import { employeeModel } from '../index'; 
 import styles from './EmployeeRow.module.sass';
-import { useSelectedEmployee } from '../model'; 
 
 type EmployeeRowProps = JSX.IntrinsicElements['tr'] & {
   lastName?: ReactNode;
@@ -20,13 +20,13 @@ export const EmployeeRow: FC<EmployeeRowProps> = ({
   lastName,
   position,
 }) => {
-  const isSelected = useSelectedEmployee(companyId, employeeId);
+  const isSelected = employeeModel.useSelectedEmployee(companyId, employeeId);
 
   return (
     <tr
       className={clsx({
-        [styles['Employee']]:             true,
-        [styles['EmployeeRow_selected']]: isSelected })}
+        [styles['EmployeeRow']]:             true,
+        [styles['EmployeeRow_selected']]:    isSelected })}
     >
       <td>{checkbox}</td>
       <td>{lastName}</td>

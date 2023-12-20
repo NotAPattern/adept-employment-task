@@ -17,7 +17,7 @@ export const initialState: {
   currentSelectId:      null,
   entities:             {},
   ids:                  [],
-  selectedCompaniesIds: [],
+  selectedCompaniesIds: {},
 };
 
 export const companyModelSlice = createSlice({
@@ -65,6 +65,15 @@ export const companyModelSlice = createSlice({
     ) => {
       selectedCompaniesIds[companyId] = !selectedCompaniesIds[companyId];
     },
+    selectAllCompanies: (
+      { entities, selectedCompaniesIds },
+    ) => {
+      const selectedCompaniesIdsKeys = Object.keys(selectedCompaniesIds);
+      const isSelectedAll = selectedCompaniesIdsKeys.length === 0 || selectedCompaniesIdsKeys.some(id => selectedCompaniesIds[id as unknown as number] !== true); 
+      for (const id of Object.keys(entities) as unknown as number[]) {
+        selectedCompaniesIds[id] = isSelectedAll;
+      }
+    },
   },
 });
 
@@ -73,6 +82,7 @@ export const {
   changeCompanyProperty,
   changeCurrentSelectId,
   changeSelectCompany,
+  selectAllCompanies,
 } = companyModelSlice.actions;
 
 export const useCompaniesIds = () => useSelector((state:RootState) => state.companies.ids);
@@ -96,5 +106,13 @@ export const useSelectedCompanyId = (id: number) =>
 
 export const useCurrentSelectedId = () =>
   useSelector((state: RootState) => state.companies.currentSelectId);
+
+export const useCompanyEmployesCount = (companyId: number) =>
+  useSelector(
+    createSelector(
+      (state: RootState) => state.companies.entities,
+      (companies) => companies[companyId].employesCount
+    )
+  );
 
 export const reducer = companyModelSlice.reducer;

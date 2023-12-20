@@ -6,9 +6,11 @@ import {
   TableRow
 } from 'src/shared/ui';
 import { ChangeCompanyProperty } from 'src/features/changeCompanyProperty';
+import { CompanyEmployesCount } from 'src/features/showCompanyEmployesCount';
 import { companyModel } from 'src/entites/company';
 import { CompanyRow } from 'src/entites/company/ui/companyRow';
 import { FC } from 'react';
+import { SelectAllCompanies } from 'src/features/selectAllCompanies';
 import SelectCompany from 'src/features/selectCompanyRow/ui';
 
 export const CompaniesTable: FC = () => {
@@ -18,7 +20,7 @@ export const CompaniesTable: FC = () => {
     <Table>
       <TableHead>
         <TableRow>
-          <TableHeadCell>{/* TODO: */}</TableHeadCell>
+          <TableHeadCell>{<SelectAllCompanies />}</TableHeadCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -36,9 +38,8 @@ export const CompaniesTable: FC = () => {
                 />
               }
               companyId={id}
-              // TODO: add component
-              employesCount={22}
-              // company.employesCount}
+              employesCount={
+                <CompanyEmployesCount id={id}/>}
               key={`company-row-${id}`}
               name={
                 <ChangeCompanyProperty

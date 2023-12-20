@@ -6,7 +6,7 @@ import styles from './CompanyRow.module.sass';
 type CompanyRowProps = JSX.IntrinsicElements['tr'] & {
   address: ReactNode;
   checkbox: ReactNode;
-  employesCount: number;
+  employesCount: ReactNode;
   companyId: number;
   name: ReactNode;
 };

@@ -13,9 +13,9 @@ const SelectCompany: FC<SelectCompanyProps> = ({ id, label }) => {
   const isSelected = companyModel.useSelectedCompanyId(id);
   return (
     <Checkbox
-      checked={isSelected}
+      checked={isSelected ?? false}
       key={`company-checkbox-key-${id}`}
-      label={label}
+      label={label ?? ''}
       onChange={() => {
         dispatch(companyModel.changeSelectCompany(id));
         dispatch(companyModel.changeCurrentSelectId(id));

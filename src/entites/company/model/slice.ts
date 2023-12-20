@@ -40,6 +40,17 @@ export const companyModelSlice = createSlice({
         }
       }
     },
+    addCompany: (
+      state,
+      {
+        payload: { company }
+      }: PayloadAction<{ company: Company }>
+    ) => {
+      const newId = state.ids[state.ids.length - 1] + 1;
+      state.entities[newId] = company;
+      state.ids = addAndSort(state.ids, newId);
+      state.selectedCompaniesIds[newId] = false;
+    },
     changeCompanyEmployesCount: ({ entities }, { payload }: PayloadAction<{id: number, value: number}>) => {
       entities[payload.id].employesCount = payload.value;
     },
@@ -79,6 +90,7 @@ export const companyModelSlice = createSlice({
 
 export const {
   addCompanies,
+  addCompany,
   changeCompanyProperty,
   changeCurrentSelectId,
   changeSelectCompany,

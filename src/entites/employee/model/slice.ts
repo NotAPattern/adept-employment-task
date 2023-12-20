@@ -22,6 +22,17 @@ export const employeeModel = createSlice({
   initialState: initialState,
   name:         'employes',
   reducers:     {
+    addEmployee: (
+      state,
+      {
+        payload,
+      }: PayloadAction<{ companyId: number, employee: Employee }>
+    ) => {
+      const newId = state.ids[payload.companyId][state.ids[payload.companyId].length - 1] + 1;
+      state.entities[payload.companyId][newId] = payload.employee;
+      state.ids[payload.companyId] = addAndSort(state.ids[payload.companyId], newId);
+      state.selectedEmployesIds[payload.companyId][newId] = false;
+    },
     addEmployes: (
       state,
       {
@@ -76,10 +87,11 @@ export const employeeModel = createSlice({
 });
 
 export const {
+  addEmployee,
   addEmployes,
   changeEmployProperty,
   changeSelectEmployee,
-  selectAllEmployes,
+  selectAllEmployes
 } = employeeModel.actions;
 
 export const useEmployesIds = (companyId: number) => useSelector((state:RootState) => state.employes.ids[companyId]);

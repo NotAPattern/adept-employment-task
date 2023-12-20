@@ -6,6 +6,7 @@ import {
   TableHeadCell,
   TableRow
 } from 'src/shared/ui';
+import { AddEmployeeRow } from 'src/features/addEmployeeData';
 import { ChangeEmployeeProperty } from 'src/features/changeEmployeeProperty';
 import { FC } from 'react';
 import { SelectAllEmployes } from 'src/features/selectAllEmployes';
@@ -29,6 +30,7 @@ export const EmployesTable: FC<EmployesTableProps> = ({ companyId }) => {
         </TableRow>
       </TableHead>
       <TableBody>
+        <AddEmployeeRow companyId={companyId}/>
         {employesIds.map((id) => {
           return (
             <EmployeeRow

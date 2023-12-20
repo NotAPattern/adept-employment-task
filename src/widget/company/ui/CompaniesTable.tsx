@@ -5,6 +5,7 @@ import {
   TableHeadCell,
   TableRow
 } from 'src/shared/ui';
+import { AddCompanyRow } from 'src/features/addCompanyData';
 import { ChangeCompanyProperty } from 'src/features/changeCompanyProperty';
 import { CompanyEmployesCount } from 'src/features/showCompanyEmployesCount';
 import { companyModel } from 'src/entites/company';
@@ -24,6 +25,8 @@ export const CompaniesTable: FC = () => {
         </TableRow>
       </TableHead>
       <TableBody>
+        <AddCompanyRow/>
+
         {companiesIds.map((id) => {
           return (
             <CompanyRow

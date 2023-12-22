@@ -27,29 +27,30 @@ export const CompaniesTable: FC = () => {
       <TableBody>
         <AddCompanyRow/>
 
-        {companiesIds.map((id) => {
+        {companiesIds.map((id: number | null) => {
           return (
-            <CompanyRow
-              address={
-                <ChangeCompanyProperty
-                  id={id}
-                  type='address'
-                />}
-              checkbox={
-                <SelectCompany
-                  id={id}
-                />
-              }
-              companyId={id}
-              employesCount={
-                <CompanyEmployesCount id={id}/>}
-              key={`company-row-${id}`}
-              name={
-                <ChangeCompanyProperty
-                  id={id}
-                  type='name'
-                />}
-            />
+            id &&
+              <CompanyRow
+                address={
+                  <ChangeCompanyProperty
+                    id={id}
+                    type='address'
+                  />}
+                checkbox={
+                  <SelectCompany
+                    id={id}
+                  />
+                }
+                companyId={id}
+                employesCount={
+                  <CompanyEmployesCount id={id}/>}
+                key={`company-row-${id}`}
+                name={
+                  <ChangeCompanyProperty
+                    id={id}
+                    type='name'
+                  />}
+              />
           );
         })}
       </TableBody>

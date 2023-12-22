@@ -76,6 +76,16 @@ export const companyModelSlice = createSlice({
     ) => {
       selectedCompaniesIds[companyId] = !selectedCompaniesIds[companyId];
     },
+    deleteSelectedCompanies: (
+      state,
+    ) => {
+      for (const selectedCompanyId of Object.keys(state.selectedCompaniesIds) as unknown as number[]) {
+        delete state.entities[selectedCompanyId];
+        delete state.ids[selectedCompanyId - 1];
+        state.selectedCompaniesIds = {};
+      }
+      state.currentSelectId = null;
+    },
     selectAllCompanies: (
       { entities, selectedCompaniesIds },
     ) => {
@@ -94,6 +104,7 @@ export const {
   changeCompanyProperty,
   changeCurrentSelectId,
   changeSelectCompany,
+  deleteSelectedCompanies,
   selectAllCompanies,
 } = companyModelSlice.actions;
 

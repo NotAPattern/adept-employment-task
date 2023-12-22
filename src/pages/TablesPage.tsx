@@ -6,6 +6,7 @@ import {
 } from 'react';
 import { CompaniesTable } from 'src/widget';
 import { companyModel } from 'src/entites/company';
+import { DeleteSelectedCompanies } from 'src/features/deleteCompanies';
 import { employeeModel } from 'src/entites/employee';
 import { EmployesTable } from 'src/widget/employee/ui/EmployesTable';
 import { PAGINATION_COUNT } from 'src/shared/config';
@@ -65,6 +66,7 @@ function TablesPage() {
       <h1 style={{ 'display': 'none' }}>Таблицы компаний и сотрудников</h1>
       <div style={{ 'width': '50%' }}>
         <h2>Компании</h2>
+        <DeleteSelectedCompanies/>
         {isCompaniesLoading && <ReactLoading type='spin'/>}
         {!isCompaniesLoading && <CompaniesTableMemo />}
       </div>

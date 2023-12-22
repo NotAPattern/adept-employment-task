@@ -70,6 +70,16 @@ export const employeeModel = createSlice({
       }
       selectedEmployesIds[payload.companyId][payload.id] = !selectedEmployesIds[payload.companyId][payload.id];
     },
+    deleteEmployes: (
+      state,
+      { payload }: PayloadAction<{companiesIds: number[]}>
+    ) => {
+      for (const companyId of payload.companiesIds) {
+        delete state.entities[companyId];
+        delete state.ids[companyId];
+        delete state.selectedEmployesIds[companyId];
+      }
+    },
     selectAllEmployes: (
       { entities, selectedEmployesIds },
       { payload }: PayloadAction<{companyId: number}>
@@ -91,6 +101,7 @@ export const {
   addEmployes,
   changeEmployProperty,
   changeSelectEmployee,
+  deleteEmployes,
   selectAllEmployes
 } = employeeModel.actions;
 
